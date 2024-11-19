@@ -17,6 +17,7 @@ const App = () => {
   })
 
   const totalFeedback = feedback.bad + feedback.good + feedback.neutral
+  const positivePercentage = calculatePositivePercentage(feedback.good, totalFeedback)
 
   const updateFeedback = (feedbackType) => {
     setFeedBack((prev) => ({ ...prev, [feedbackType]: prev[feedbackType] + 1 }))
@@ -36,11 +37,15 @@ const App = () => {
       <Options updateFeedback={updateFeedback} handleReset={handleReset} totalFeedback={totalFeedback} />
       
       { totalFeedback > 0
-        ? <Feedback feedback={feedback} totalFeedback={totalFeedback} />
+        ? <Feedback feedback={feedback} totalFeedback={totalFeedback} positivePercentage={positivePercentage} />
         : <Notification/>
       }
     </>
   )
+}
+
+function calculatePositivePercentage(good, total) {
+  return Math.round((good / total) * 100) + "%"
 }
 
 export default App
